@@ -1,0 +1,11 @@
+# NIPANGE Mobile — Foundation
+- Tokens: `lib/app/theme/tokens.dart` (colors/spacing/radius) + `app_theme.dart` (light/dark ThemeData)
+- Components: `lib/core/widgets/components.dart` — NipButton/NipTextField/NipAvatar/NipEmpty/NipSkeleton/NipCard
+- Config: `lib/core/config/env.dart` — `APP_ENV`/`API_URL`/`SOCKET_URL`/`DEBUG_LOG` dart-defines, validated at boot
+- Storage: `SecureStore` (flutter_secure_storage — tokens only) + `Prefs` (shared_prefs — theme/locale only)
+- Settings: `themeProvider` + `localeProvider` — persisted, system-aware
+- Localization: ARB en+sw via `flutter gen-l10n`, `AppLocalizations` delegates wired
+- API: Dio client — envelope unwrap, Bearer + silent-refresh-on-401, `ApiException(code,msg)`
+- Shell: 5-dest NavigationBar — Home/Discover/Create(sheet)/Chats/Profile, IndexedStack
+- Wired APIs: `/auth/*` (register+OTP+login+refresh+logout), `/feed/explore`, `/search`, `/messaging/conversations`, `/profiles/me`
+- Env run: `flutter run --dart-define=API_URL=http://10.0.2.2:4000/api/v1` (Android emulator)

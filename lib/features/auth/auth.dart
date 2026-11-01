@@ -5,9 +5,14 @@ final apiProvider = Provider<ApiClient>((_) => ApiClient());
 
 enum AuthState { unknown, unauthenticated, authenticated }
 
-class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._api) : super(AuthState.unknown) { _restore(); }
-  final ApiClient _api;
+class AuthNotifier extends Notifier<AuthState> {
+  @override
+  AuthState build() {
+    _restore();
+    return AuthState.unknown;
+  }
+
+  ApiClient get _api => ref.read(apiProvider);
 
   Future<void> _restore() async {
     final ok = await _api.refreshTokens();
@@ -38,4 +43,4 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 }
 
-final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((r) => AuthNotifier(r.watch(apiProvider)));
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);

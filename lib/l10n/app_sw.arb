@@ -1,0 +1,13 @@
+{
+  "appName": "NIPANGE",
+  "home": "Nyumbani", "discover": "Gundua", "create": "Tengeneza", "chats": "Chats", "profile": "Wasifu",
+  "search": "Tafuta", "notifications": "Arifa", "settings": "Mipangilio",
+  "welcome": "Karibu — jiunge au ingia", "verify": "Ingiza namba ya kuthibitisha",
+  "phone": "Namba ya simu (+255…)", "password": "Nenosiri", "otp": "——————",
+  "confirm": "Thibitisha", "signIn": "Ingia", "join": "Jiunge",
+  "noAccount": "Huna akaunti? Jiunge", "hasAccount": "Tayari una akaunti? Ingia",
+  "resendIn": "Tuma tena baada ya {s}s", "resendNow": "Tuma namba tena",
+  "emptyFeed": "Hakuna posts bado — uwe wa kwanza!", "loadFailed": "Imeshindikana kupakia feed", "retry": "Jaribu tena",
+  "noChats": "Hakuna mazungumzo bado", "logout": "Toka", "createPost": "Tengeneza", "createSheetPost": "Post ya maandishi",
+  "createSheetPhoto": "Picha", "createSheetReel": "Reel", "createSheetStory": "Story", "createSheetPoll": "Poll"
+}

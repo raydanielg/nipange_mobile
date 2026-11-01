@@ -1,0 +1,13 @@
+{
+  "appName": "NIPANGE",
+  "home": "Home", "discover": "Discover", "create": "Create", "chats": "Chats", "profile": "Profile",
+  "search": "Search", "notifications": "Notifications", "settings": "Settings",
+  "welcome": "Welcome — join or sign in", "verify": "Enter the verification code",
+  "phone": "Phone number (+255…)", "password": "Password", "otp": "——————",
+  "confirm": "Confirm", "signIn": "Sign in", "join": "Join",
+  "noAccount": "No account? Join", "hasAccount": "Have an account? Sign in",
+  "resendIn": "Resend in {s}s", "resendNow": "Resend code",
+  "emptyFeed": "No posts yet — be the first!", "loadFailed": "Failed to load feed", "retry": "Try again",
+  "noChats": "No conversations yet", "logout": "Logout", "createPost": "Create", "createSheetPost": "Text post",
+  "createSheetPhoto": "Photo", "createSheetReel": "Reel", "createSheetStory": "Story", "createSheetPoll": "Poll"
+}

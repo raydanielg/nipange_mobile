@@ -1,18 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'config/env.dart';
+import 'storage/storages.dart';
 
 /// Central API layer — envelope {success,data} / {error:{code,message}},
 /// Bearer auth, silent refresh on 401, Tanzania-safe error surfacing.
 class ApiClient {
   ApiClient({String? baseUrl})
       : dio = Dio(BaseOptions(
-          baseUrl: baseUrl ?? const String.fromEnvironment('API_URL', defaultValue: 'http://localhost:4000/api/v1'),
+          baseUrl: baseUrl ?? Env.apiUrl,
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 20),
         )) {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (o, h) async {
-        final t = await _storage.read(key: 'access');
+        final t = await SecureStore.access;
         if (t != null) o.headers['authorization'] = 'Bearer $t';
         h.next(o);
       },
@@ -22,7 +23,7 @@ class ApiClient {
           try {
             final ok = await refreshTokens();
             if (ok) {
-              final t = await _storage.read(key: 'access');
+              final t = await SecureStore.access;
               e.requestOptions.headers['authorization'] = 'Bearer $t';
               return h.resolve(await dio.fetch(e.requestOptions));
             }
@@ -34,18 +35,15 @@ class ApiClient {
   }
 
   final Dio dio;
-  final _storage = const FlutterSecureStorage();
+  
   bool _refreshing = false;
 
-  static const _kAccess = 'access', _kRefresh = 'refresh';
-
   Future<void> saveTokens(String access, String refresh) async {
-    await _storage.write(key: _kAccess, value: access);
-    await _storage.write(key: _kRefresh, value: refresh);
+    await SecureStore.saveTokens(access, refresh);
   }
 
   Future<bool> refreshTokens() async {
-    final r = await _storage.read(key: _kRefresh);
+    final r = await SecureStore.refresh;
     if (r == null) return false;
     try {
       final res = await Dio(BaseOptions(baseUrl: dio.options.baseUrl))
@@ -54,12 +52,12 @@ class ApiClient {
       await saveTokens(d['accessToken'], d['refreshToken']);
       return true;
     } catch (_) {
-      await _storage.deleteAll();
+      await SecureStore.clear();
       return false;
     }
   }
 
-  Future<void> clearTokens() => _storage.deleteAll();
+  Future<void> clearTokens() => SecureStore.clear();
 
   /// Unwraps {success, data} or throws [ApiException] with the backend code.
   Future<dynamic> get(String path, {Map<String, dynamic>? query}) async =>
