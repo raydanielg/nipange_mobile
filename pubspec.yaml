@@ -45,6 +45,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   video_player: ^2.14.1
+  hugeicons: ^4.4.0
 
 dev_dependencies:
   flutter_test:

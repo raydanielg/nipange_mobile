@@ -6,6 +6,7 @@ import 'package:mobile/app/theme/app_theme.dart';
 import 'package:mobile/core/config/env.dart';
 import 'package:mobile/core/config/settings.dart';
 import 'package:mobile/features/auth/auth.dart';
+import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/auth/auth_screen.dart';
 import 'package:mobile/l10n/app_localizations.dart';
 
@@ -35,7 +36,7 @@ class NipangeApp extends ConsumerWidget {
       ],
       home: switch (auth) {
         AuthState.unknown => const Scaffold(body: Center(child: CircularProgressIndicator())),
-        AuthState.unauthenticated => const AuthScreen(),
+        AuthState.unauthenticated => const OnboardingScreen(),
         _ => const AppShell(),
       },
     );

@@ -19,4 +19,6 @@ abstract final class Prefs {
   static Future<String?> get theme async => (await _i).getString('theme');
   static Future<void> setLocale(String l) async => (await _i).setString('locale', l);
   static Future<String?> get locale async => (await _i).getString('locale');
+  static Future<void> setOnboarded() async => (await _i).setString('onboarded', '1');
+  static Future<bool> get onboarded async => (await _i).getString('onboarded') == '1';
 }

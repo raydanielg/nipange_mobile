@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/theme.dart';
+import 'package:mobile/core/config/env.dart';
+import 'package:mobile/core/storage/storages.dart';
 import 'package:mobile/features/auth/auth.dart';
 import 'package:video_player/video_player.dart';
 
@@ -25,9 +27,8 @@ class _S extends ConsumerState<ReelsScreen> {
   @override
   void dispose() { _ctrl?.dispose(); _page.dispose(); super.dispose(); }
 
-  /// Defensive playback-URL resolution — backend serves storageKey, not a URL yet.
-  String? _videoUrl(Map r) =>
-      (r['videoUrl'] ?? r['playbackUrl'] ?? r['mediaUrl'] ?? r['url'])?.toString();
+  /// Stream URL — the backend enforces visibility; auth header carried by player.
+  String? _videoUrl(Map r) => r['id'] != null ? '${Env.apiUrl}/reels/${r['id']}/stream' : null;
 
   Future<void> _activate(int i) async {
     if (i >= _reels.length) return;
@@ -35,7 +36,8 @@ class _S extends ConsumerState<ReelsScreen> {
     final url = _videoUrl(_reels[i]);
     if (url == null) { setState(() {}); return; }
     await _ctrl?.dispose();
-    _ctrl = VideoPlayerController.networkUrl(Uri.parse(url));
+    final token = await SecureStore.access;
+    _ctrl = VideoPlayerController.networkUrl(Uri.parse(url), httpHeaders: {'authorization': 'Bearer $token'});
     try {
       await _ctrl!.initialize();
       await _ctrl!.setLooping(true);
